@@ -1,0 +1,44 @@
+version: "3.4"
+
+services:
+  nginx:
+    image: nginx:1.18.0
+    depends_on:
+      - hf
+    ports:
+      - "80:80"
+      - "9501:9501"
+    volumes:
+      - "./server/nginx/nginx.conf:/etc/nginx/nginx.conf"
+      - "./server/nginx/conf.d:/etc/nginx/conf.d"
+      - "./runtime/docker/nginx/log:/var/log/nginx"
+      - ".:/usr/share/nginx/html"
+
+  hf:
+    image: hyperf/hyperf:7.4-alpine-v3.9-cli
+    container_name: hf-main
+    environment:
+      - APP_ENV=dev
+    depends_on:
+      - mysql
+      - redis
+    restart: always
+    volumes:
+      - ".:/opt/www"
+    command: php /opt/www/bin/hyperf.php start
+
+  mysql:
+    image: mysql:8.0.19
+    container_name: hf-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    ports:
+      - "13306:3306"
+    volumes:
+      - ./runtime/docker/data/mysql:/var/lib/mysql
+
+  redis:
+    container_name: hf-redis
+    image: redis:4-alpine
+    sysctls:
+      net.core.somaxconn: 65535
