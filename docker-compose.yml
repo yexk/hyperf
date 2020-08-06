@@ -25,7 +25,10 @@ services:
     restart: always
     volumes:
       - ".:/opt/www"
-    command: php /opt/www/bin/hyperf.php start
+    # 开发模式
+    # command: php /opt/www/bin/hyperf.php start
+    # 开发模式（热重载）
+    command: php /opt/www/watch
 
   mysql:
     image: mysql:8.0.19
