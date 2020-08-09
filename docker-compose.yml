@@ -15,7 +15,8 @@ services:
       - ".:/usr/share/nginx/html"
 
   hf:
-    image: hyperf/hyperf:7.4-alpine-v3.9-cli
+    # image: hyperf/hyperf:7.4-alpine-v3.9-cli
+    build: .
     container_name: hf-main
     environment:
       - APP_ENV=dev
