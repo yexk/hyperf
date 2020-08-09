@@ -22,7 +22,6 @@ services:
     depends_on:
       - mysql
       - redis
-    restart: always
     volumes:
       - ".:/opt/www"
     # 开发模式

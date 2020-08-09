@@ -20,7 +20,12 @@ use Hyperf\Constants\Annotation\Constants;
 class ErrorCode extends AbstractConstants
 {
     /**
-     * @Message("Server Error！")
+     * @Message("Server Error!")
      */
     const SERVER_ERROR = 500;
+
+    /**
+     * @Message("Api error!")
+     */
+    const NOT_FOUND = 404;
 }
