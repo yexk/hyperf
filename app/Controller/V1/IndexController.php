@@ -11,26 +11,22 @@ declare(strict_types=1);
  */
 namespace App\Controller\V1;
 
-use App\Constants\ErrorCode;
-use App\Controller\AbstractController;
-use App\Exception\ApiException;
-use App\Model\User;
+use App\Services\UserService;
+use Hyperf\HttpServer\Contract\RequestInterface;
+use Hyperf\HttpServer\Contract\ResponseInterface;
 
-class IndexController extends AbstractController
+class IndexController
 {
-    public function index()
+    public function index(RequestInterface $request, ResponseInterface $response)
     {
-        $user = $this->request->input('user', 'Hyperf');
-        $method = $this->request->getMethod();
-        $User = new User();
-        $User->name = 'asffsdsf';
-        $User->save();
-        // TODO
-        throw new ApiException(ErrorCode::SERVER_ERROR);
-        return [
+        $method = $request->getMethod();
+
+        $User = new UserService();
+        $user = $User->getUserById(43);
+
+        return $response->json([
             'method' => $method,
-            'message' => "Hello {$user}.",
-            'res' => $User,
-        ];
+            'res' => $user,
+        ]);
     }
 }

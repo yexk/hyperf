@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Constants\ErrorCode;
 use App\Exception\ApiException;
 
-class NotFoundController extends AbstractController
+class NotFoundController
 {
     public function index()
     {

@@ -11,15 +11,18 @@ declare(strict_types=1);
  */
 namespace App\Controller;
 
-class IndexController extends AbstractController
+use Hyperf\HttpServer\Contract\RequestInterface;
+use Hyperf\HttpServer\Contract\ResponseInterface;
+
+class IndexController
 {
-    public function index()
+    public function index(RequestInterface $request, ResponseInterface $response)
     {
-        $user = $this->request->input('user', 'Hyperf');
-        $method = $this->request->getMethod();
-        return [
+        $user = $request->input('user', 'yexk');
+        $method = $request->getMethod();
+        return $response->json([
             'method' => $method,
             'message' => "Hello {$user}.",
-        ];
+        ]);
     }
 }

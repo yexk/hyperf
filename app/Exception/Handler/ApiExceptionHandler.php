@@ -11,7 +11,6 @@ declare(strict_types=1);
  */
 namespace App\Exception\Handler;
 
-use App\Constants\ErrorCode;
 use App\Exception\ApiException;
 use Hyperf\ExceptionHandler\ExceptionHandler;
 use Hyperf\HttpMessage\Stream\SwooleStream;
@@ -23,21 +22,18 @@ class ApiExceptionHandler extends ExceptionHandler
     public function handle(Throwable $throwable, ResponseInterface $response)
     {
         // 拦截所有api异常，
-        if ($throwable instanceof ApiException) {
-            $data = json_encode([
-                'code' => $throwable->getCode(),
-                'message' => $throwable->getMessage(),
-            ]);
+        $data = json_encode([
+            'code' => $throwable->getCode(),
+            'message' => $throwable->getMessage(),
+        ]);
 
-            $this->stopPropagation();
+        $this->stopPropagation();
 
-            return $response->withStatus(200)->withBody(new SwooleStream($data));
-        }
-        return $response;
+        return $response->withStatus(200)->withAddedHeader('Content-Type', 'application/json; charset=utf-8')->withBody(new SwooleStream($data));
     }
 
     public function isValid(Throwable $throwable): bool
     {
-        return true;
+        return $throwable instanceof ApiException;
     }
 }

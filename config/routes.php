@@ -15,4 +15,11 @@ Router::addRoute(['GET', 'POST'], '/', 'App\Controller\IndexController@index');
 
 Router::addGroup('/v1/', function () {
     Router::addRoute(['GET', 'POST'], 'as', 'App\Controller\V1\IndexController@index');
+
+    Router::addGroup('devices/', function () {
+        Router::get('list', 'App\Controller\V1\DevicesController@index');
+        Router::post('put', 'App\Controller\V1\DevicesController@store');
+        Router::post('update', 'App\Controller\V1\DevicesController@update');
+        Router::post('delete', 'App\Controller\V1\DevicesController@delete');
+    });
 });
